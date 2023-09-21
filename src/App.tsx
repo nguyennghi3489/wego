@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useQuery } from "react-query";
+import { getAllCategories, getAllFoods } from "./apis/food";
 
 function App() {
+  // Queries
+  const { isLoading: isCategoriesLoading, isError: isCategoriesError } =
+    useQuery("categories", getAllCategories, {
+      retry: 3,
+    });
+  const { isLoading: isFoodsLoading, isError: isFoodsError } = useQuery(
+    "foods",
+    getAllFoods,
+    { retry: 3 }
+  );
+
+  if (isCategoriesLoading || isFoodsLoading) return <>Loading...</>;
+
+  if (isCategoriesError || isFoodsError) return <>Something Wrong</>;
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <header className="App-header">Food List Page</header>
     </div>
   );
 }
