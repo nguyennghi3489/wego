@@ -1,0 +1,16 @@
+.container {
+  max-width: var(--min-search-box-width);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: var(--spacing);
+  border: 1px solid var(--lightGrayColor);
+  border-radius: var(--radius);
+}
+
+.searchInput {
+  margin-left: var(--spacingS);
+  outline: none;
+  border: none;
+  flex: 1;
+}
