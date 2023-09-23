@@ -12,6 +12,11 @@ code {
     monospace;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   --min-search-box-width: 300px;
   --spacingL: 16px;
@@ -20,7 +25,8 @@ code {
 
   --primaryColor: #2dcedb;
   --secondaryColor: #f20000;
-  --lightGrayColor: #ccc;
+  --greenColor: #038c3e;
+  --lightGrayColor: #ddd;
   --grayColor: #505050;
   --darkColor: #282828;
 
