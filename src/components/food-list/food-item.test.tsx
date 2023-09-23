@@ -1,35 +1,21 @@
 import { render, screen } from "@testing-library/react";
 import { FoodItem } from "./food-item";
-import { PromotionType } from "../../models/food";
+import { mockFoodItem1 } from "../../data/mock-food-data";
 
-const mockItem = {
-  id: "628b5dec9cf7cc07f011a6e4",
-  index: 180,
-  rating: 1.2061,
-  promotion: "1+1" as PromotionType,
-  isNew: true,
-  categoryId: "6288a89fac9e970731bfaa7b",
-  minCookTime: 60,
-  maxCookTime: 80,
-  restaurant: "Temorak",
-  name: "Temorak Drinks",
-  imageUrl: "https://source.unsplash.com/random/400x400?Drinks",
-};
-
-describe("SearchBox", () => {
+describe("Food Item Component", () => {
   test("should renders correctly", () => {
-    render(<FoodItem item={mockItem} />);
-    const foodName = screen.getByText(mockItem.name);
+    render(<FoodItem item={mockFoodItem1} />);
+    const foodName = screen.getByText(mockFoodItem1.name);
     expect(foodName).toBeInTheDocument();
     const cookDuration = screen.getByText(
-      `${mockItem.minCookTime}-${mockItem.maxCookTime} min`
+      `${mockFoodItem1.minCookTime}-${mockFoodItem1.maxCookTime} min`
     );
     expect(cookDuration).toBeInTheDocument();
-    const rating = screen.getByText(mockItem.rating);
+    const rating = screen.getByText(mockFoodItem1.rating);
     expect(rating).toBeInTheDocument();
 
     const foodImage = screen.getByRole("img");
-    expect(foodImage).toHaveAttribute("src", mockItem.imageUrl);
-    expect(foodImage).toHaveAttribute("alt", mockItem.restaurant);
+    expect(foodImage).toHaveAttribute("src", mockFoodItem1.imageUrl);
+    expect(foodImage).toHaveAttribute("alt", mockFoodItem1.restaurant);
   });
 });
