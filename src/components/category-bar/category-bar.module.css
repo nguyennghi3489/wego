@@ -2,10 +2,11 @@
   border: 1px solid var(--lightGrayColor);
   border-radius: var(--radius);
   display: inline-block;
+  font-size: var(--font-size-medium);
 }
 
 .item {
-  padding: var(--spacing);
+  padding: var(--spacingL);
   display: inline-block;
   &:first-child {
     border-left: none;

@@ -12,7 +12,7 @@
 .image {
   height: 200px;
   width: 100%;
-  background-size: cover;
+  object-fit: cover;
 }
 
 .promotion {
@@ -23,6 +23,10 @@
   padding: var(--spacingS) var(--spacingL);
   opacity: 0.8;
   color: white;
+}
+
+.name {
+  font-size: var(--font-size-medium);
 }
 
 .gift {

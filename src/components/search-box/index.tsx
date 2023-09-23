@@ -17,7 +17,7 @@ export const SearchBox: FC<Props> = ({
 }) => {
   return (
     <div className={styles.container}>
-      <AiOutlineSearch />
+      <AiOutlineSearch size={20} />
       <input
         className={styles.searchInput}
         placeholder={placeholder}

@@ -41,7 +41,7 @@ export const FoodItem: FC<Props> = ({ item }) => {
       {renderPromotionIcon(item.promotion)}
       <img src={item.imageUrl} alt={item.restaurant} className={styles.image} />
       <div className={styles.contentContainer}>
-        <h4>{item.name}</h4>
+        <h4 className={styles.name}>{item.name}</h4>
         <div className={styles.detailContainer}>
           <div className={styles.detailBox}>
             <AiFillStar />
