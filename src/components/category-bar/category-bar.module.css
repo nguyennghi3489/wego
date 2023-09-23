@@ -1,0 +1,22 @@
+.container {
+  border: 1px solid var(--lightGrayColor);
+  border-radius: var(--radius);
+  display: inline-block;
+}
+
+.item {
+  padding: var(--spacing);
+  display: inline-block;
+  &:first-child {
+    border-left: none;
+  }
+  border-left: 1px solid var(--lightGrayColor);
+  cursor: pointer;
+  &:hover {
+    color: var(--secondaryColor);
+  }
+}
+
+.isActivated {
+  color: var(--secondaryColor);
+}
