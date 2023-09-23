@@ -1,0 +1,59 @@
+.container {
+  position: relative;
+  display: inline-flex;
+  border-radius: var(--radius);
+  overflow: hidden;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 1px 1px 10px var(--lightGrayColor);
+}
+
+.image {
+  height: 200px;
+}
+
+.promotion {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-bottom-right-radius: var(--radius);
+  padding: var(--spacingS) var(--spacingL);
+  opacity: 0.8;
+  color: white;
+}
+
+.gift {
+  background-color: var(--secondaryColor);
+}
+
+.discount {
+  background-color: var(--primaryColor);
+}
+
+.onePlusOne {
+  background-color: var(--greenColor);
+}
+
+.contentContainer {
+  padding: var(--spacingL);
+}
+
+.detailContainer {
+  margin-top: var(--spacingL);
+  display: inline-flex;
+  gap: var(--spacing);
+}
+.detailBox {
+  background-color: var(--lightGrayColor);
+  padding: var(--spacing);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacingS);
+  align-items: center;
+  border-radius: var(--radius);
+}
+
+.isNew {
+  color: var(--greenColor);
+}
