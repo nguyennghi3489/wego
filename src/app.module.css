@@ -5,3 +5,15 @@
   gap: var(--spacingL);
   align-items: flex-start;
 }
+
+.pagination {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+}
+.loadMore {
+  display: flex;
+  align-items: center;
+  gap: var(--spacingS);
+}
