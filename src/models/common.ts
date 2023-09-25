@@ -1,4 +1,4 @@
 export interface IPagination<T> {
-  items: T;
-  hasNextPage: boolean;
+  data: T;
+  nextCursor: number | null;
 }

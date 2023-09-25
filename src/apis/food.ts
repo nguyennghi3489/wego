@@ -2,6 +2,7 @@ import { QueryFunctionContext } from "react-query";
 import { ICategory } from "../models/category";
 import { IFood } from "../models/food";
 import { IPagination } from "../models/common";
+import { IQuery } from "../models/query";
 
 let allFoods: IFood[] = [];
 const PAGE_LIMIT = 10;
@@ -24,17 +25,40 @@ export const getAllFoods = async (): Promise<IFood[]> => {
 };
 
 export const getFoodAtPage = async ({
+  pageParam = 0,
   queryKey,
-}: QueryFunctionContext<[string, number]>): Promise<IPagination<IFood[]>> => {
-  const [_, page] = queryKey;
-
+}: QueryFunctionContext<[string, number | IQuery]>): Promise<
+  IPagination<IFood[]>
+> => {
+  console.log(queryKey);
+  const [_, filter] = queryKey;
+  const { name, categoryId } = filter as IQuery;
   if (allFoods.length <= 0) {
     allFoods = await getAllFoods();
   }
-  const hasNextPage = page * PAGE_LIMIT < allFoods.length;
+
+  let filterData = allFoods;
+  if (name) {
+    filterData = filterData.filter((item) =>
+      item.name.toLocaleLowerCase().includes(name.toLowerCase())
+    );
+    console.log(filterData);
+  }
+  if (categoryId) {
+    filterData = filterData.filter((item) => item.categoryId === categoryId);
+  }
+  if (!name && !categoryId) {
+    filterData = allFoods;
+  }
+
+  const nextCursor =
+    pageParam * PAGE_LIMIT < filterData.length ? pageParam + 1 : null;
 
   return {
-    items: allFoods.slice(page * PAGE_LIMIT, (page + 1) * PAGE_LIMIT),
-    hasNextPage,
+    data: filterData.slice(
+      pageParam * PAGE_LIMIT,
+      (pageParam + 1) * PAGE_LIMIT
+    ),
+    nextCursor,
   };
 };
