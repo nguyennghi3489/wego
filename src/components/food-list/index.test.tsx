@@ -6,11 +6,16 @@ import {
   mockFoodItem3,
 } from "../../data/mock-food-data";
 
-const mockItems = [mockFoodItem1, mockFoodItem2, mockFoodItem3];
+const mockItems = {
+  pages: [
+    { data: [mockFoodItem1, mockFoodItem2, mockFoodItem3], nextCursor: 1 },
+  ],
+  pageParams: [],
+};
 
 describe("Food List Component", () => {
   test("should renders correctly", () => {
-    render(<FoodList items={mockItems} />);
+    render(<FoodList data={mockItems} />);
     const foodName1 = screen.getByText(mockFoodItem1.name);
     expect(foodName1).toBeInTheDocument();
     const foodName2 = screen.getByText(mockFoodItem2.name);
