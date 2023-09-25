@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { FoodItem } from "./food-item";
-import { mockFoodItem1 } from "../../data/mock-food-data";
+import { mockFoodItem1 } from "../../data/mock-food";
 
 describe("Food Item Component", () => {
   test("should renders correctly", () => {
@@ -11,7 +11,7 @@ describe("Food Item Component", () => {
       `${mockFoodItem1.minCookTime}-${mockFoodItem1.maxCookTime} min`
     );
     expect(cookDuration).toBeInTheDocument();
-    const rating = screen.getByText(mockFoodItem1.rating.toFixed(2));
+    const rating = screen.getByText(mockFoodItem1.rating.toFixed(1));
     expect(rating).toBeInTheDocument();
 
     const foodImage = screen.getByRole("img");

@@ -2,7 +2,7 @@ import { PromotionType } from "../models/food";
 
 export const mockFoodItem1 = {
   id: "628b5dec9cf7cc07f011a6e4",
-  index: 180,
+  index: 321,
   rating: 1.2061,
   promotion: "1+1" as PromotionType,
   isNew: true,
@@ -15,7 +15,7 @@ export const mockFoodItem1 = {
 };
 
 export const mockFoodItem2 = {
-  id: "628b5dec9cf7cc07f011a6e4",
+  id: "628b5dec9cf7cc07f011a623",
   index: 180,
   rating: 1.2061,
   promotion: "1+1" as PromotionType,
@@ -29,8 +29,8 @@ export const mockFoodItem2 = {
 };
 
 export const mockFoodItem3 = {
-  id: "628b5dec9cf7cc07f011a6e4",
-  index: 180,
+  id: "628b5dec9cf7cc07f011a6e1",
+  index: 123,
   rating: 1.2061,
   promotion: "1+1" as PromotionType,
   isNew: true,
@@ -40,4 +40,28 @@ export const mockFoodItem3 = {
   restaurant: "Temorak",
   name: "Food Item 3",
   imageUrl: "https://source.unsplash.com/random/400x400?Drinks",
+};
+
+export const generateFoodList = (
+  categoryId: string = "",
+  name: string,
+  count: number
+) => {
+  const result = [];
+  for (let i = 0; i < count; i++) {
+    const item = {
+      id: name + i,
+      index: i,
+      rating: 3.9508,
+      promotion: "gift",
+      isNew: false,
+      categoryId: categoryId,
+      minCookTime: 80,
+      maxCookTime: 100,
+      restaurant: name,
+      name: name + i,
+    };
+    result.push(item);
+  }
+  return result;
 };

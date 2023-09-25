@@ -4,7 +4,7 @@ import {
   mockFoodItem1,
   mockFoodItem2,
   mockFoodItem3,
-} from "../../data/mock-food-data";
+} from "../../data/mock-food";
 
 const mockItems = {
   pages: [
