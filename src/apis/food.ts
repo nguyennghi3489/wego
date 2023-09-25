@@ -30,7 +30,7 @@ export const getFoodAtPage = async ({
 }: QueryFunctionContext<[string, number | IQuery]>): Promise<
   IPagination<IFood[]>
 > => {
-  console.log(queryKey);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, filter] = queryKey;
   const { name, categoryId } = filter as IQuery;
   if (allFoods.length <= 0) {
@@ -42,7 +42,6 @@ export const getFoodAtPage = async ({
     filterData = filterData.filter((item) =>
       item.name.toLocaleLowerCase().includes(name.toLowerCase())
     );
-    console.log(filterData);
   }
   if (categoryId) {
     filterData = filterData.filter((item) => item.categoryId === categoryId);
