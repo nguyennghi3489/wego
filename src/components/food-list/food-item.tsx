@@ -45,7 +45,7 @@ export const FoodItem: FC<Props> = ({ item }) => {
         <div className={styles.detailContainer}>
           <div className={styles.detailBox}>
             <AiFillStar />
-            {item.rating}
+            {item.rating.toFixed(1)}
           </div>
           <div
             className={styles.detailBox}

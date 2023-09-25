@@ -11,7 +11,7 @@ describe("Food Item Component", () => {
       `${mockFoodItem1.minCookTime}-${mockFoodItem1.maxCookTime} min`
     );
     expect(cookDuration).toBeInTheDocument();
-    const rating = screen.getByText(mockFoodItem1.rating);
+    const rating = screen.getByText(mockFoodItem1.rating.toFixed(2));
     expect(rating).toBeInTheDocument();
 
     const foodImage = screen.getByRole("img");
