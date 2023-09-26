@@ -2,20 +2,22 @@ import { act, cleanup, render, screen } from "@testing-library/react";
 import fireEvent from "@testing-library/user-event";
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "react-query";
-import nock, { restore } from "nock";
+import nock, { cleanAll, restore } from "nock";
 import { generateFoodList } from "./data/mock-food";
 import { mockCategoryResponse } from "./data/mock-category";
 import { PAGE_LIMIT } from "./apis/food";
 import { getAllRegex } from "./helpers/regex";
 import { BASE_API_URL } from "./apis/constants";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-      keepPreviousData: false,
-    },
+const DEFAULT_QUERY_CLIENT_OPTIONS = {
+  queries: {
+    retry: false,
+    keepPreviousData: false,
   },
+};
+
+const queryClient = new QueryClient({
+  defaultOptions: DEFAULT_QUERY_CLIENT_OPTIONS,
 });
 
 const LOAD_MORE_BUTTON = "Load More";
@@ -45,21 +47,6 @@ const mockPizzaFood = generateFoodList(
   PIZZA_FOOD_COUNT
 );
 
-nock(BASE_API_URL)
-  .defaultReplyHeaders({
-    "access-control-allow-origin": "*",
-    "access-control-allow-credentials": "true",
-  })
-  .get("/f25ced0a-9ff7-4996-bdc7-430f281c48db")
-  .reply(200, mockCategoryResponse);
-nock(BASE_API_URL)
-  .defaultReplyHeaders({
-    "access-control-allow-origin": "*",
-    "access-control-allow-credentials": "true",
-  })
-  .get("/a24cfec5-f76c-410b-a5ac-9f63fab28abb")
-  .reply(200, [...mockSushiFood, ...mockPizzaFood]);
-
 const setup = () => {
   render(
     <QueryClientProvider client={queryClient}>
@@ -67,7 +54,77 @@ const setup = () => {
     </QueryClientProvider>
   );
 };
-describe("App", () => {
+const setupGoodApi = () => {
+  nock(BASE_API_URL)
+    .defaultReplyHeaders({
+      "access-control-allow-origin": "*",
+      "access-control-allow-credentials": "true",
+    })
+    .get("/f25ced0a-9ff7-4996-bdc7-430f281c48db")
+    .reply(200, mockCategoryResponse);
+  nock(BASE_API_URL)
+    .defaultReplyHeaders({
+      "access-control-allow-origin": "*",
+      "access-control-allow-credentials": "true",
+    })
+    .get("/a24cfec5-f76c-410b-a5ac-9f63fab28abb")
+    .reply(200, [...mockSushiFood, ...mockPizzaFood]);
+};
+const setupErrorApi = () => {
+  nock(BASE_API_URL)
+    .defaultReplyHeaders({
+      "access-control-allow-origin": "*",
+      "access-control-allow-credentials": "true",
+    })
+    .get("/f25ced0a-9ff7-4996-bdc7-430f281c48db")
+    .reply(400, "Error");
+  nock(BASE_API_URL)
+    .defaultReplyHeaders({
+      "access-control-allow-origin": "*",
+      "access-control-allow-credentials": "true",
+    })
+    .get("/a24cfec5-f76c-410b-a5ac-9f63fab28abb")
+    .reply(400, "Error");
+};
+describe("App with pending api", () => {
+  beforeEach(() => {
+    setupGoodApi();
+  });
+  afterEach(() => {
+    cleanup();
+    nock.cleanAll();
+    queryClient.resetQueries();
+  });
+  test("should renders spinner correctly", async () => {
+    await act(async () => setup());
+    const spinner = await screen.findByTestId("spinner");
+    expect(spinner).toBeInTheDocument();
+  });
+});
+
+describe("App with error api", () => {
+  afterEach(() => {
+    cleanup();
+    cleanAll();
+    nock.cleanAll();
+    queryClient.resetQueries();
+  });
+  beforeEach(() => {
+    setupErrorApi();
+  });
+  test("should renders error box correctly", async () => {
+    await act(async () => setup());
+    const categoryText = await screen.findByText(
+      "API has a problem. Please refesh the page"
+    );
+    expect(categoryText).toBeInTheDocument();
+  });
+});
+
+describe("App with good api", () => {
+  beforeEach(() => {
+    setupGoodApi();
+  });
   afterEach(() => {
     cleanup();
     restore();

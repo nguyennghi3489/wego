@@ -33,8 +33,9 @@ function App() {
     isError: isCategoriesError,
     data: categories,
   } = useQuery("categories", getAllCategories, {
-    retry: 3,
+    retry: false,
   });
+  console.log(isCategoriesLoading);
   const {
     isLoading: isFoodsLoading,
     isError: isFoodsError,
@@ -43,7 +44,7 @@ function App() {
     fetchNextPage,
   } = useInfiniteQuery({
     queryKey: ["foods", query],
-    retry: 3,
+    retry: false,
     queryFn: getFoodAtPage,
     keepPreviousData: true,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -51,7 +52,7 @@ function App() {
 
   if (isCategoriesLoading || isFoodsLoading)
     return (
-      <div className={styles.fullPage}>
+      <div className={styles.fullPage} data-testid="spinner">
         <Spinner />
       </div>
     );
