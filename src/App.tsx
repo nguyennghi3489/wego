@@ -35,7 +35,6 @@ function App() {
   } = useQuery("categories", getAllCategories, {
     retry: false,
   });
-  console.log(isCategoriesLoading);
   const {
     isLoading: isFoodsLoading,
     isError: isFoodsError,

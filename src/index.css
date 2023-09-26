@@ -23,6 +23,7 @@ code {
 :root {
   --max-width: 900px;
   --min-search-box-width: 300px;
+
   --spacingXL: 32px;
   --spacingL: 16px;
   --spacing: 8px;
@@ -40,7 +41,4 @@ code {
   --font-size-large: 20px;
 
   --radius: 5px;
-
-  --tablet-break-point: 481px;
-  --desktop-break-point: 769px;
 }
