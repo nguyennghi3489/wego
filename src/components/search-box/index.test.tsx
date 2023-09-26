@@ -8,7 +8,11 @@ const mockOnChangeFn = jest.fn();
 describe("SearchBox", () => {
   test("should renders placeholder correctly", () => {
     render(
-      <SearchBox placeholder={mockPlaceholder} value="" onChange={() => {}} />
+      <SearchBox
+        placeholder={mockPlaceholder}
+        defaultValue=""
+        onChange={() => {}}
+      />
     );
     const searchBoxPlaceholder = screen.getByPlaceholderText(mockPlaceholder);
     expect(searchBoxPlaceholder).toBeInTheDocument();
@@ -18,7 +22,7 @@ describe("SearchBox", () => {
     render(
       <SearchBox
         placeholder={mockPlaceholder}
-        value={mockSearchBoxText}
+        defaultValue={mockSearchBoxText}
         onChange={() => {}}
       />
     );
@@ -31,7 +35,7 @@ describe("SearchBox", () => {
     render(
       <SearchBox
         placeholder={mockPlaceholder}
-        value={mockSearchBoxText}
+        defaultValue={mockSearchBoxText}
         name={mockSearchBoxName}
         onChange={mockOnChangeFn}
       />

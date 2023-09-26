@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { debounce } from "lodash";
 import { useInfiniteQuery, useQuery } from "react-query";
 import { AiOutlinePlus } from "react-icons/ai";
 import { getAllCategories, getFoodAtPage } from "./apis/food";
@@ -15,13 +16,11 @@ const FILTER_DEFAULT = {
 };
 
 function App() {
-  const [searchText, setSearchText] = useState<string>("");
   const [query, setQuery] = useState<IQuery>(FILTER_DEFAULT);
 
-  const onSearchNameChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setSearchText(event.currentTarget.value);
-    setQuery({ ...query, name: event.currentTarget.value });
-  };
+  const debouncedSearchNameChange = debounce((input: string) => {
+    setQuery({ ...query, name: input });
+  }, 300);
 
   const onCategoryIdChange = (id: string) => {
     setQuery({ ...query, categoryId: id });
@@ -56,12 +55,12 @@ function App() {
     <div className={styles.container}>
       <SearchBox
         placeholder="Enter Restaurant Name"
-        value={searchText}
-        onChange={onSearchNameChange}
+        defaultValue=""
+        onChange={debouncedSearchNameChange}
         name="restaurantFilterTextBox"
       />
       {categories && (
-        <CategoryBar items={categories} pickItem={onCategoryIdChange} />
+        <CategoryBar items={categories ?? []} pickItem={onCategoryIdChange} />
       )}
       {data && <FoodList data={data} />}
       {hasNextPage && (
