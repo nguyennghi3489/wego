@@ -7,6 +7,7 @@ import { generateFoodList } from "./data/mock-food";
 import { mockCategoryResponse } from "./data/mock-category";
 import { PAGE_LIMIT } from "./apis/food";
 import { getAllRegex } from "./helpers/regex";
+import { BASE_API_URL } from "./apis/constants";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,19 +45,19 @@ const mockPizzaFood = generateFoodList(
   PIZZA_FOOD_COUNT
 );
 
-nock("https://run.mocky.io")
+nock(BASE_API_URL)
   .defaultReplyHeaders({
     "access-control-allow-origin": "*",
     "access-control-allow-credentials": "true",
   })
-  .get("/v3/f25ced0a-9ff7-4996-bdc7-430f281c48db")
+  .get("/f25ced0a-9ff7-4996-bdc7-430f281c48db")
   .reply(200, mockCategoryResponse);
-nock("https://run.mocky.io")
+nock(BASE_API_URL)
   .defaultReplyHeaders({
     "access-control-allow-origin": "*",
     "access-control-allow-credentials": "true",
   })
-  .get("/v3/a24cfec5-f76c-410b-a5ac-9f63fab28abb")
+  .get("/a24cfec5-f76c-410b-a5ac-9f63fab28abb")
   .reply(200, [...mockSushiFood, ...mockPizzaFood]);
 
 const setup = () => {
