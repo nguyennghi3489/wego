@@ -9,6 +9,8 @@ import { FoodList } from "./components/food-list";
 import { Button } from "./components/button";
 import { IQuery } from "./models/query";
 import styles from "./app.module.css";
+import { Spinner } from "./components/spinner";
+import { ErrorBox } from "./components/error-box";
 
 const FILTER_DEFAULT = {
   name: undefined,
@@ -47,9 +49,19 @@ function App() {
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
-  if (isCategoriesLoading || isFoodsLoading) return <>Loading...</>;
+  if (isCategoriesLoading || isFoodsLoading)
+    return (
+      <div className={styles.fullPage}>
+        <Spinner />
+      </div>
+    );
 
-  if (isCategoriesError || isFoodsError) return <>Something Wrong</>;
+  if (isCategoriesError || isFoodsError)
+    return (
+      <div className={styles.fullPage}>
+        <ErrorBox text="API has a problem. Please refesh the page" />
+      </div>
+    );
 
   return (
     <div className={styles.container}>

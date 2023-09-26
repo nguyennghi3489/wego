@@ -1,0 +1,12 @@
+.container {
+  padding: var(--spacingXL);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+  align-items: center;
+  border: 1px solid var(--secondaryColor);
+  border-radius: var(--radius);
+  background-color: var(--lightGrayColor);
+  font-size: var(--font-size-medium);
+  box-shadow: 1px 1px 10px var(--lightGrayColor);
+}

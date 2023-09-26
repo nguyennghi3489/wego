@@ -23,6 +23,7 @@ code {
 :root {
   --max-width: 900px;
   --min-search-box-width: 300px;
+  --spacingXL: 32px;
   --spacingL: 16px;
   --spacing: 8px;
   --spacingS: 4px;
@@ -31,7 +32,7 @@ code {
   --secondaryColor: #f20000;
   --greenColor: #038c3e;
   --lightGrayColor: #ddd;
-  --grayColor: #505050;
+  --grayColor: #787777;
   --darkColor: #282828;
 
   --font-size-small: 12px;
