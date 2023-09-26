@@ -1,20 +1,34 @@
 .container {
-  border: 1px solid var(--lightGrayColor);
-  border-radius: var(--radius);
   display: inline-block;
   font-size: var(--font-size-medium);
+
+  @media only screen and (min-width: 769px) {
+    border: 1px solid var(--lightGrayColor);
+    border-radius: var(--radius);
+  }
 }
 
 .item {
   padding: var(--spacingL);
   display: inline-block;
-  &:first-child {
-    border-left: none;
-  }
   border-left: 1px solid var(--lightGrayColor);
   cursor: pointer;
   &:hover {
     color: var(--secondaryColor);
+  }
+
+  border: 1px solid var(--lightGrayColor);
+  border-radius: var(--radius);
+  margin-right: var(--spacing);
+  margin-bottom: var(--spacing);
+  @media only screen and (min-width: 769px) {
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    border-left: 1px solid var(--lightGrayColor);
+    &:first-child {
+      border-left: none;
+    }
   }
 }
 

@@ -6,6 +6,7 @@
   padding: var(--spacing);
   border: 1px solid var(--lightGrayColor);
   border-radius: var(--radius);
+  box-sizing: border-box;
 }
 
 .searchInput {
