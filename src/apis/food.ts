@@ -51,7 +51,9 @@ export const getFoodAtPage = async ({
   }
 
   const nextCursor =
-    pageParam * PAGE_LIMIT < filterData.length ? pageParam + 1 : null;
+    (pageParam + 1) * PAGE_LIMIT < filterData.length
+      ? pageParam + 1
+      : undefined;
 
   return {
     data: filterData.slice(

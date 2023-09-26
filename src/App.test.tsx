@@ -1,8 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { act, cleanup, render, screen } from "@testing-library/react";
 import fireEvent from "@testing-library/user-event";
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "react-query";
-import nock from "nock";
+import nock, { restore } from "nock";
 import { generateFoodList } from "./data/mock-food";
 import { mockCategoryResponse } from "./data/mock-category";
 import { PAGE_LIMIT } from "./apis/food";
@@ -12,8 +12,8 @@ import { BASE_API_URL } from "./apis/constants";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // ✅ turns retries off
       retry: false,
+      keepPreviousData: false,
     },
   },
 });
@@ -68,19 +68,21 @@ const setup = () => {
   );
 };
 describe("App", () => {
-  afterAll(() => {
-    nock.restore();
+  afterEach(() => {
+    cleanup();
+    restore();
+    queryClient.resetQueries();
   });
   test("should renders header correctly", async () => {
-    setup();
-    const categoryText = await screen.findByText("All");
+    await act(async () => setup());
+    const categoryText = await screen.findByText(ALL_CATEGORY_BUTTON);
     expect(categoryText).toBeInTheDocument();
     const foodText = await screen.findByText(`${SUSHI_FOOD_NAME}0`);
     expect(foodText).toBeInTheDocument();
   });
 
   test("should renders categories data correctly", async () => {
-    setup();
+    await act(async () => setup());
     const categoryText = await screen.findByText(ALL_CATEGORY_BUTTON);
     expect(categoryText).toBeInTheDocument();
 
@@ -92,15 +94,15 @@ describe("App", () => {
   });
 
   test("should renders food data correctly", async () => {
-    setup();
+    await act(async () => setup());
     const sushiFoods = await screen.findAllByText(allSushiFood);
 
     expect(sushiFoods).toHaveLength(PAGE_LIMIT);
   });
 
   test("should renders category filter result correctly", async () => {
-    setup();
-    const pizzaCategoryButton = screen.getByText(PIZZA_CATEGORY_NAME);
+    await act(async () => setup());
+    const pizzaCategoryButton = await screen.findByText(PIZZA_CATEGORY_NAME);
     expect(pizzaCategoryButton).toBeInTheDocument();
     fireEvent.click(pizzaCategoryButton);
 
@@ -112,7 +114,7 @@ describe("App", () => {
   });
 
   test("should renders food search result correctly", async () => {
-    setup();
+    await act(async () => setup());
     const categoryText = await screen.findByText(ALL_CATEGORY_BUTTON);
     expect(categoryText).toBeInTheDocument();
     const searchBoxInput = screen.getByLabelText("restaurantFilterTextBox");
@@ -124,7 +126,7 @@ describe("App", () => {
   });
 
   test("should renders more food after click show more", async () => {
-    setup();
+    await act(async () => setup());
     const loadMoreButton = await screen.findByText(LOAD_MORE_BUTTON);
     expect(loadMoreButton).toBeInTheDocument();
     const emptyPizzaFoods = screen.queryAllByText(allPizzaFood);
@@ -136,5 +138,17 @@ describe("App", () => {
     expect(allPizzaFoods).toHaveLength(PIZZA_FOOD_COUNT);
     const allSushiFoods = screen.queryAllByText(allSushiFood);
     expect(allSushiFoods).toHaveLength(SUSHI_FOOD_COUNT);
+  });
+
+  test("should not renders more food after click show more", async () => {
+    await act(async () => setup());
+    const categoryText = await screen.findByText(ALL_CATEGORY_BUTTON);
+    expect(categoryText).toBeInTheDocument();
+    const loadMoreButton = await screen.findByText(LOAD_MORE_BUTTON);
+    expect(loadMoreButton).toBeInTheDocument();
+    fireEvent.click(loadMoreButton);
+    const allPizzaFoods = await screen.findAllByText(allPizzaFood);
+    expect(allPizzaFoods).toHaveLength(PIZZA_FOOD_COUNT);
+    expect(loadMoreButton).not.toBeInTheDocument();
   });
 });
