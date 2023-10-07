@@ -123,15 +123,28 @@ describe("App with error api", () => {
 
 describe("App with good api", () => {
   beforeEach(() => {
-    setupGoodApi();
+    nock(BASE_API_URL)
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "access-control-allow-credentials": "true",
+      })
+      .get("/f25ced0a-9ff7-4996-bdc7-430f281c48db")
+      .reply(200, mockCategoryResponse);
+    nock(BASE_API_URL)
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "access-control-allow-credentials": "true",
+      })
+      .get("/a24cfec5-f76c-410b-a5ac-9f63fab28abb")
+      .reply(200, [...mockSushiFood, ...mockPizzaFood]);
   });
   afterEach(() => {
     cleanup();
-    restore();
+    nock.cleanAll();
     queryClient.resetQueries();
   });
   test("should renders header correctly", async () => {
-    await act(async () => setup());
+    setup();
     const categoryText = await screen.findByText(ALL_CATEGORY_BUTTON);
     expect(categoryText).toBeInTheDocument();
     const foodText = await screen.findByText(`${SUSHI_FOOD_NAME}0`);
@@ -140,8 +153,7 @@ describe("App with good api", () => {
 
   test("should renders categories data correctly", async () => {
     await act(async () => setup());
-    const categoryText = await screen.findByText(ALL_CATEGORY_BUTTON);
-    expect(categoryText).toBeInTheDocument();
+    await screen.findByText(ALL_CATEGORY_BUTTON);
 
     const sushiText = screen.getByText(SUSHI_CATEGORY_NAME);
     expect(sushiText).toBeInTheDocument();
@@ -159,7 +171,9 @@ describe("App with good api", () => {
 
   test("should renders category filter result correctly", async () => {
     await act(async () => setup());
-    const pizzaCategoryButton = await screen.findByText(PIZZA_CATEGORY_NAME);
+    await screen.findByText(ALL_CATEGORY_BUTTON);
+
+    const pizzaCategoryButton = screen.getByText(PIZZA_CATEGORY_NAME);
     expect(pizzaCategoryButton).toBeInTheDocument();
     fireEvent.click(pizzaCategoryButton);
 
