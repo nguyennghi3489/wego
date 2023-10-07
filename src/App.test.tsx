@@ -2,7 +2,7 @@ import { act, cleanup, render, screen } from "@testing-library/react";
 import fireEvent from "@testing-library/user-event";
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "react-query";
-import nock, { cleanAll, restore } from "nock";
+import nock, { cleanAll } from "nock";
 import { generateFoodList } from "./data/mock-food";
 import { mockCategoryResponse } from "./data/mock-category";
 import { PAGE_LIMIT } from "./apis/food";
@@ -92,7 +92,7 @@ describe("App with pending api", () => {
   });
   afterEach(() => {
     cleanup();
-    nock.cleanAll();
+    cleanAll();
     queryClient.resetQueries();
   });
   test("should renders spinner correctly", async () => {
@@ -106,7 +106,6 @@ describe("App with error api", () => {
   afterEach(() => {
     cleanup();
     cleanAll();
-    nock.cleanAll();
     queryClient.resetQueries();
   });
   beforeEach(() => {
@@ -140,7 +139,7 @@ describe("App with good api", () => {
   });
   afterEach(() => {
     cleanup();
-    nock.cleanAll();
+    cleanAll();
     queryClient.resetQueries();
   });
   test("should renders header correctly", async () => {
